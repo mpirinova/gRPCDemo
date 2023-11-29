@@ -6,16 +6,45 @@ package greet;
 
 // The greeting service definition.
 service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
+  // Unary mode
+  rpc GetCustomer (CustomerId) returns (Customer);
+
+  // Server streaming mode
+  rpc GetAllCustomers (AllCustomersRequest) returns (stream Customer);
+
+  // Client streaming mode
+  rpc GetProductsTotalPrice (stream Product) returns (TotalPrice);
+
+  // Bidirectional mode
+  rpc GetPriceByProductName (stream ProductName) returns (stream ProductPrice);
 }
 
-// The request message containing the user's name.
-message HelloRequest {
+message AllCustomersRequest{
+}
+
+message CustomerId {
+  int32 id = 1;
+}
+
+message Customer {
   string name = 1;
+  int32 age = 2;
+  repeated Product products = 3;
 }
 
-// The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message Product {
+	string name = 1;
+	float price = 2;
+}
+
+message TotalPrice{
+	float totalPrice = 1;
+}
+
+message ProductName{
+	string name = 1;
+}
+
+message ProductPrice {
+	float price = 1;
 }
